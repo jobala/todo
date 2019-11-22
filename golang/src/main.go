@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"core"
 )
- 
+
 func main() {
 	fmt.Println("vim-go")
 
