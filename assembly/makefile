@@ -3,3 +3,6 @@ todo: todo.o
 
 todo.o:
 	nasm -f elf todo.s -o todo.o
+
+clean:
+	rm -rf *.o
