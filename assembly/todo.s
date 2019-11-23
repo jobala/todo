@@ -9,8 +9,10 @@
 ; make todo
 
 section .data
-	Msg: db "Hello, World", 10 								; Create the message variable
-	MsgLen equ $- Msg													; Calculate the length of the message
+	Msg: db "Welcome to the assembly todo manager", 10, "------------------------------------",10								; Create the message variable
+	MsgLen equ $- Msg																									; Calculate the length of the message
+	FileName: db "database.txt"																				; File name for the file storing todo items
+	AccessPermissions equ 0777																				; Read, write & execute by all
 
 section .bss
 
@@ -19,10 +21,24 @@ section .text
 	global _start
 
 _start:
-	call say_hello
+	call welcome_message
+	call open_or_create_file
 
 
-say_hello:
+open_or_create_file:
+	pushad																		; Push the callers general purpose registers into the stack
+	mov eax, 8																; Specifies sys_creat syscall
+	mov ebx, FileName													; Provide the filename
+	mov ecx, AccessPermissions							  ; Specify the permissions with which the file should be created/opened
+	popad																			; Pop the callers general purpose registers from the stack
+
+	int 0x80																	; make the syscall
+	ret
+
+read_file:
+
+
+welcome_message:
 	mov eax, 4																; Specify the sys_write system call
 	mov ebx, 1																; Selects the file descriptor to write to in this case it's stdout
 	mov ecx, Msg															; Msg to write
