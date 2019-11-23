@@ -1,6 +1,7 @@
 package core
 
 import (
+	"fmt"
 	"os"
 )
 
@@ -12,6 +13,9 @@ func Read(todoItem ToDo) {
 // Write todo items to files
 func Write(todoItem ToDo) {
 	fileDb := open("database.csv")
+	entry := fmt.Sprintf("%d,%s,%s,%s",
+		todoItem.ID, todoItem.Description, todoItem.CreatedAt, todoItem.UpdatedAt)
+	fmt.Println(entry)
 
 	defer close(fileDb)
 }
