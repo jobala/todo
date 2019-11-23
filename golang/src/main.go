@@ -2,12 +2,10 @@ package main
 
 import (
 	"core"
-	"fmt"
 	"time"
 )
 
 func main() {
-	fmt.Println("vim-go")
 
 	todoItem := core.ToDo{
 		ID:          1,
