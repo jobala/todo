@@ -10,8 +10,8 @@ func Read(todoItem ToDo) {
 
 }
 
-// Write todo items to files
-func Write(todoItem ToDo) {
+// Save todo items to files
+func Save(todoItem ToDo) {
 	database := openDatabase()
 	err := createDbEntryFor(todoItem, database)
 

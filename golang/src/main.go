@@ -14,5 +14,5 @@ func main() {
 		UpdatedAt:   time.Now(),
 	}
 
-	core.Write(todoItem)
+	core.Save(todoItem)
 }
