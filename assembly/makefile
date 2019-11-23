@@ -5,4 +5,4 @@ todo.o:
 	nasm -f elf todo.s -o todo.o
 
 clean:
-	rm -rf *.o todo
+	rm -rf *.o todo *.txt

@@ -11,8 +11,9 @@
 section .data
 	Msg: db "Welcome to the assembly todo manager", 10, "------------------------------------",10								; Create the message variable
 	MsgLen equ $- Msg																									; Calculate the length of the message
-	FileName: db "database.txt"																				; File name for the file storing todo items
-	AccessPermissions equ 0777																				; Read, write & execute by all
+  WriteSuccess: db "Written to file", 0xa																
+  WriteSuccessLen equ $-WriteSuccess
+  FileName: db "database.txt"																				; File name for the file storing todo items
 
 section .bss
 	fd_out resb 1
@@ -30,26 +31,26 @@ _start:
 open_or_create_file:
 	mov eax, 8																; Specifies sys_creat syscall
 	mov ebx, FileName													; Provide the filename
-	mov ecx, AccessPermissions							  ; Specify the permissions with which the file should be created/opened
+	mov ecx, 0777							                ; Specify the permissions with which the file should be created/opened
 
 	int 0x80																	; make the syscall
+
+  mov [fd_out], eax                         ; Store the file descriptor for in memory
+
 	ret
 
 write_to_file:
-	pushad																		; Push the caller's general purpose registers into the stack
 	mov eax, 4																; Specify the sys_write syscall
-	mov ebx, [fd_out]													; Set the file descriptor
+	mov ebx, [fd_out]													; Reference file descriptor from memory
 	mov ecx, Msg
 	mov edx, MsgLen
-	popad																			; Pop the caller's general purpose registers into the stack
 
 	int 0x80
 
-	mov eax, 6																; Specify sys_close syscall
-	mov ebx, [fd_out]
+  mov eax, 6                                ; Specify sys_close syscall
+  mov ebx, [fd_out]                         ; It should close the file described by the file descriptor
 
-	int  0x80
-
+  int 0x80
 	ret
 
 welcome_message:
