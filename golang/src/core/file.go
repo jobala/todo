@@ -1,13 +1,28 @@
 package core
 
 import (
+	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 // Read todo items from file
-func Read(todoItem ToDo) {
+func Read() {
+	file, err := os.Open("database.csv")
+	if err != nil {
+		handleError(err)
+	}
 
+	scanner := bufio.NewScanner(file)
+
+	for scanner.Scan() {
+		text := scanner.Text()
+		withoutCommas := strings.Replace(text, ",", " : ", -1)
+		fmt.Println(withoutCommas)
+	}
+
+	defer close(file)
 }
 
 // Save todo items to files
