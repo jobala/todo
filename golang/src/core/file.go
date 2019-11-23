@@ -12,16 +12,20 @@ func Read(todoItem ToDo) {
 
 // Write todo items to files
 func Write(todoItem ToDo) {
-	fileDb := open("database.csv")
-	entry := fmt.Sprintf("%d,%s,%s,%s",
-		todoItem.ID, todoItem.Description, todoItem.CreatedAt, todoItem.UpdatedAt)
+	database := openDatabase()
+	entry := createDbEntryFor(todoItem)
 	fmt.Println(entry)
 
-	defer close(fileDb)
+	defer close(database)
 }
 
-func open(file string) *os.File {
-	openedFile, err := os.Create(file)
+func createDbEntryFor(todoItem ToDo) string {
+	return fmt.Sprintf("%d,%s,%s,%s",
+		todoItem.ID, todoItem.Description, todoItem.CreatedAt, todoItem.UpdatedAt)
+}
+
+func openDatabase() *os.File {
+	openedFile, err := os.Create("database.csv")
 	handleError(err)
 
 	return openedFile
