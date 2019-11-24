@@ -26,20 +26,19 @@ func Read() {
 // Save todo items to files
 func Save(todoItem ToDo) {
 	database := openDatabase()
-	err := createDbEntryFor(todoItem, database)
-	handleError(err)
+	createDbEntryFor(todoItem, database)
 
 	fmt.Println("TODO item saved successfully")
 	defer close(database)
 }
 
-func createDbEntryFor(todoItem ToDo, database *os.File) error {
+func createDbEntryFor(todoItem ToDo, database *os.File) {
 	entry := fmt.Sprintf("%d,%s,%s,%s\n",
 		todoItem.ID, todoItem.Description, todoItem.CreatedAt, todoItem.UpdatedAt)
 
 	_, err := database.WriteString(entry)
 
-	return err
+	handleError(err)
 }
 
 func openDatabase() *os.File {
