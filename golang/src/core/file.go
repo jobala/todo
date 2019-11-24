@@ -10,9 +10,7 @@ import (
 // Read todo items from file
 func Read() {
 	file, err := os.Open("database.csv")
-	if err != nil {
-		handleError(err)
-	}
+	handleError(err)
 
 	scanner := bufio.NewScanner(file)
 
@@ -29,10 +27,7 @@ func Read() {
 func Save(todoItem ToDo) {
 	database := openDatabase()
 	err := createDbEntryFor(todoItem, database)
-
-	if err != nil {
-		handleError(err)
-	}
+	handleError(err)
 
 	fmt.Println("TODO item saved successfully")
 	defer close(database)
